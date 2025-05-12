@@ -23,7 +23,7 @@
 
         </div>
         <div>
-            <component :is="view" :ref="currentStepRef" :step1DataProps="step1FormData" :step2DataProps="step2FormData"  >
+            <component :is="view" :ref="currentStepRef" v-bind="CurruentProps">
             </component>
         </div>
 
@@ -45,65 +45,77 @@ export default {
         return {
             curruentStep: 1,
             view: "step1",
-            step1FormData: {},
-            step2FormData: {}
+            step1FormData: {
+                firstname: "",
+                lastname: "",
+                email: "",
+                phone: "",
+                gender: "",
+                dob: "",
+            },
+            step2FormData: {
+                presentAdd: "",
+                localAdd: "",
+                checked: false,
+                state: "",
+            }
         }
     },
     computed: {
         currentStepRef() {
-            // console.log("currentStepRef is computed")
             return this.view + 'Ref';
+        },
+        CurruentProps() {
+            if (this.view == "step1") {
+                return { step1FormDataProps: this.step1FormData }
+            }
+            else if (this.view == "step2") {
+                return { step2FormDataProps: this.step2FormData }
+            }
+            else if (this.view == "step3") {
+                return {
+                    step1FormDataProps: this.step1FormData,
+                    step2FormDataProps: this.step2FormData
+                }
+            }
         }
     },
     watch: {
-        // curruentStep() {
-        //     console.log("Curruent Step is", this.curruentStep);
-        // },
-        // step1FormData() {
-        //     console.log("step 1 Form data : ", this.step1FormData);
-        // },
-        // step2FormData() {
-        //     console.log("Step 2 Form data: ", this.step2FormData);
-        // }
+
+
+
+
     },
 
-    methods: {
-        handleNextSubmitBtn() {
-            // console.log(this.$refs.step1Ref);
-            // console.log("Both click + submit handled");
-            if (this.curruentStep == 1) {
-                const step1Data = this.$refs.step1Ref.Step1DataCollector();
-                this.step1FormData = step1Data;
-                // console.log("step 1 form data******* ", this.step1FormData);
-                // console.log("If is worked!");
-                this.NextBtn();
-            } else if (this.curruentStep == 2) {
-                const step2Data = this.$refs.step2Ref.Step2DataCollectior();
-                this.step2FormData = step2Data;
-                // console.log("step 2 form data******* ", this.step2FormData);
-                // console.log("else if worked");
-                this.NextBtn();
-            } else {
-                this.NextBtn();
-            }
-        },
 
-        NextBtn() {
-            // console.log("NextButton Method is Work");
-            this.curruentStep++;
+
+    methods: {
+
+        handleNextSubmitBtn() {
+
             if (this.curruentStep == 1) {
-                this.view = "step1";
+
+                const step1Data = this.$refs.step1Ref.step1DataCollect();
+                this.step1FormData = step1Data;
+                this.curruentStep++;
+                this.view = "step2";
             } else if (this.curruentStep == 2) {
-                this.view = "step2"
+
+                console.log("gsvg avghvgh");
+                const step2Data = this.$refs.step2Ref.step2DataCollect();
+                this.step2FormData = step2Data;
+                this.curruentStep++;
+                this.view = "step3";
+
             } else if (this.curruentStep == 3) {
-                this.view = "step3"
+                   console.log("Current step is 3");
             } else {
                 this.curruentStep = 1;
                 this.view = "step1";
             }
+
         },
         BackBtn() {
-            // console.log("backButton Method is worked")
             --this.curruentStep;
             if (this.curruentStep == 1) {
                 this.view = "step1";

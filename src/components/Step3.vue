@@ -1,55 +1,54 @@
 <template>
-    <div class="step-content hidden" id="step-4">
-      <div class="step-header">
-        <h2 class="step-title">Review & Submit</h2>
-        <p class="step-description">Please review your information before submitting</p>
-      </div>
-  
-      <div class="review-grid">
-        <div class="review-group">
-          <h3>Personal Information</h3>
-          <p><strong>First Name:</strong> {{ step1DataProps.firstname }}</p>
-          <p><strong>Last Name:</strong>{{ step1DataProps.lastname }} </p>
-          <p><strong>Email:</strong>{{ step1DataProps.email  }}</p>
-          <p><strong>Phone Number:</strong>{{ step1DataProps.phone  }}</p>
-          <p><strong>Gender:</strong>{{  step1DataProps.gender }}</p>
-          <p><strong>Date of Birth:</strong>{{  step1DataProps.dob }}</p>
-        </div>
-  
-        <div class="review-group">
-          <h3>Address Information</h3>
-          <p><strong>Present Address:</strong>{{ step2DataProps.presetAddress }}</p>
-          <p><strong>Local Address:</strong> {{ step2DataProps.localAddress }} </p>
-          <p><strong>State:</strong> {{ step2DataProps.State  }} </p>
-        </div>
-      </div>
-  
+  <div class="step-content hidden" id="step-4">
+    <div class="step-header">
+      <h2 class="step-title">Review & Submit</h2>
+      <p class="step-description">Please review your information before submitting</p>
     </div>
-  </template>
+
+    <div class="review-grid">
+      <div class="review-group">
+        <h3>Personal Information</h3>
+        <p><strong>First Name:</strong> {{ step1FormDataProps.firstname }}</p>
+        <p><strong>Last Name:</strong>{{ step1FormDataProps.lastname }} </p>
+        <p><strong>Email:</strong>{{ step1FormDataProps.email }}</p>
+        <p><strong>Phone Number:</strong>{{ step1FormDataProps.phone }}</p>
+        <p><strong>Gender:</strong>{{ step1FormDataProps.gender }}</p>
+        <p><strong>Date of Birth:</strong>{{ step1FormDataProps.dob }}</p>
+      </div>
+
+      <div class="review-group">
+           <h3>Address Information</h3>
+          <p><strong>Present Address:</strong>{{ step2FormDataProps.presentAdd  }}</p>
+          <p><strong>Local Address:</strong> {{ step2FormDataProps.localAdd }} </p>
+          <p><strong>State:</strong> {{ step2FormDataProps.state  }} </p>
+      </div>
+    </div>
+
+  </div>
+</template>
 
 <script>
-export default{
-   props:{
-    step1DataProps : Object,
-    step2DataProps : Object
-   },
-  data(){
-    return{
-      
+export default {
+  props: {
+    step1FormDataProps: Object,
+    step2FormDataProps: Object
+  },
+  data() {
+    return {
+         
     }
   },
 } 
 </script>
 
-  <style scoped >
-
+<style scoped>
 .review-grid {
   display: flex;
   gap: 2rem;
   flex-wrap: wrap;
   background-color: #ffffff;
   border: 1px solid #cbc5c6;
-  padding: 2rem;
+  padding: 1rem;
   border-radius: 4px;
   margin-bottom: 1.5rem;
 }
@@ -134,5 +133,4 @@ export default{
     justify-content: center;
   }
 }
-
 </style>

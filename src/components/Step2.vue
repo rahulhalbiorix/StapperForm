@@ -4,25 +4,25 @@
       <h2 class="step-title">Address Information</h2>
       <p class="step-description">Please provide your address details</p>
     </div>
-
+  
     <div class="form-grid">
       <div class="form-group full-width">
-        <label for="address">Present Address: {{ presentAdd }} </label>
-        <input type="text" id="address" placeholder="Enter your Present address" v-model="presentAdd">
+        <label for="address">Present Address: {{ form2.presentAdd }} </label>
+        <input type="text" id="address" placeholder="Enter your Present address" v-model="form2.presentAdd">
       </div>
       <div class="form-group">
-        <label for="city">Local Address: {{ localAdd }}</label>
-        <input type="text" id="city" placeholder="Enter your Local Address" v-model="localAdd">
+        <label for="city">Local Address: {{ form2.localAdd }}</label>
+        <input type="text" id="city" placeholder="Enter your Local Address" v-model="form2.localAdd">
       </div>
       <div class="form-group">
         <div class="addressCheckbox">
-          <input type="checkbox" v-model="checked">
-          <label>{{ checked }} : Same as Present Address: </label>
+          <input type="checkbox" v-model="form2.checked">
+          <label> <b>Same as Present Address</b> </label>
         </div>
       </div>
       <div class="form-group">
-        <label for="state">State : {{ state }}</label>
-        <select id="state" v-model="state">
+        <label for="state">State : {{ form2.state }}</label>
+        <select id="state" v-model="form2.state">
           <option value="" disabled selected>Select state</option>
           <option value="Andhra Pradesh">Andhra Pradesh</option>
           <option value="Arunachal Pradesh">Arunachal Pradesh</option>
@@ -63,58 +63,35 @@
 export default {
 
   props: {
-    step2DataProps: Object
+    step2FormDataProps: Object
   },
 
   data() {
     return {
-      presentAdd: "",
-      localAdd: "",
-      checked: false,
-      state: "",
+      form2: {},
     }
   },
-
-  watch: {
-    checked() {
-      if (this.checked == true && this.presentAdd != "") {
-        this.localAdd = this.presentAdd
-      }
-      else {
-        this.localAdd = ""
-      }
-    }
-  },
-
   mounted() {
-    console.log("Step2 mounted work");
-    this.ReRenderFormData2();
-    console.log(this.step2DataProps);
-
+    this.form2 = { ...this.step2FormDataProps }
+  },
+  watch: {
+    'form2.checked'(newValue) {
+      if (newValue) {
+        this.form2.localAdd = this.form2.presentAdd;
+      } else {
+        this.form2.localAdd = '';
+      }
+    },
+    'form2.presentAdd'(newValue) {
+      if (this.form2.checked) {
+        this.form2.localAdd = newValue;
+      }
+    }
   },
 
   methods: {
-    ReRenderFormData2() {
-      console.log("Re Render Fprm dtaa 2 is worked!");
-
-      if (this.step2DataProps) {
-          this.presentAdd = this.step2DataProps.presetAddress || "";
-          this.localAdd = this.step2DataProps.localAddress || "";
-          this.state = this.step2DataProps.State || "";
-      }
-
-    },
-
-    Step2DataCollectior() {
-
-      const Step2DataObject = {
-        presetAddress: this.presentAdd,
-        localAddress: this.localAdd,
-        State: this.state
-      }
-
-      return Step2DataObject;
-
+    step2DataCollect() {
+      return this.form2; 
     }
   },
 
