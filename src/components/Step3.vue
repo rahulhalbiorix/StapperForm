@@ -8,27 +8,38 @@
       <div class="review-grid">
         <div class="review-group">
           <h3>Personal Information</h3>
-          <p><strong>First Name:</strong> Rahul </p>
-          <p><strong>Last Name:</strong>Hadiyal </p>
-          <p><strong>Email:</strong>rahul@gmail.com</p>
-          <p><strong>Phone Number:</strong>7778997614</p>
+          <p><strong>First Name:</strong> {{ step1DataProps.firstname }}</p>
+          <p><strong>Last Name:</strong>{{ step1DataProps.lastname }} </p>
+          <p><strong>Email:</strong>{{ step1DataProps.email  }}</p>
+          <p><strong>Phone Number:</strong>{{ step1DataProps.phone  }}</p>
+          <p><strong>Gender:</strong>{{  step1DataProps.gender }}</p>
+          <p><strong>Date of Birth:</strong>{{  step1DataProps.dob }}</p>
         </div>
   
         <div class="review-group">
           <h3>Address Information</h3>
-          <p><strong>Street Address:</strong>76,ahmedabad</p>
-          <p><strong>City:</strong> Surendramnagar </p>
-          <p><strong>State:</strong> Gujarat</p>
-          <p><strong>Zip Code:</strong>363039</p>
+          <p><strong>Present Address:</strong>{{ step2DataProps.presetAddress }}</p>
+          <p><strong>Local Address:</strong> {{ step2DataProps.localAddress }} </p>
+          <p><strong>State:</strong> {{ step2DataProps.State  }} </p>
         </div>
       </div>
   
-      <div class="form-actions">
-        <button type="button">Back</button>
-        <button type="submit">Submit</button>
-      </div>
     </div>
   </template>
+
+<script>
+export default{
+   props:{
+    step1DataProps : Object,
+    step2DataProps : Object
+   },
+  data(){
+    return{
+      
+    }
+  },
+} 
+</script>
 
   <style scoped >
 
