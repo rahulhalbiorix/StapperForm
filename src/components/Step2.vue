@@ -4,25 +4,34 @@
       <h2 class="step-title">Address Information</h2>
       <p class="step-description">Please provide your address details</p>
     </div>
-  
+
     <div class="form-grid">
       <div class="form-group full-width">
-        <label for="address">Present Address: {{ form2.presentAdd }} </label>
-        <input type="text" id="address" placeholder="Enter your Present address" v-model="form2.presentAdd">
+        <label for="address">Present Address: {{ modelValue.presentAdd }} </label>
+        <input type="text" id="address" placeholder="Enter your Present address" :value="modelValue.presentAdd" @input="$emit('update:modelValue', {
+          ...modelValue,
+          presentAdd: $event.target.value
+        })">
       </div>
       <div class="form-group">
-        <label for="city">Local Address: {{ form2.localAdd }}</label>
-        <input type="text" id="city" placeholder="Enter your Local Address" v-model="form2.localAdd">
+        <label for="city">Local Address: {{ modelValue.localAdd }}</label>
+        <input type="text" id="city" placeholder="Enter your Local Address" :value="modelValue.localAdd" @input="$emit('update:modelValue', {
+          ...modelValue,
+          localAdd: $event.target.value
+        })">
       </div>
       <div class="form-group">
         <div class="addressCheckbox">
-          <input type="checkbox" v-model="form2.checked">
-          <label> <b>Same as Present Address</b> </label>
+          <input type="checkbox" :checked="modelValue.checked" @click="checkBoxclick">
+          <label> <b>Copy Present Address into Local Address </b> </label>
         </div>
       </div>
       <div class="form-group">
-        <label for="state">State : {{ form2.state }}</label>
-        <select id="state" v-model="form2.state">
+        <label for="state">State : {{ modelValue.state }}</label>
+        <select id="state" :value="modelValue.state" @input="$emit('update:modelValue', {
+          ...modelValue,
+          state: $event.target.value
+        })">
           <option value="" disabled selected>Select state</option>
           <option value="Andhra Pradesh">Andhra Pradesh</option>
           <option value="Arunachal Pradesh">Arunachal Pradesh</option>
@@ -62,36 +71,17 @@
 <script>
 export default {
 
-  props: {
-    step2FormDataProps: Object
-  },
+  props: ['modelValue'],
+  emits: ['update:modelValue'],
 
-  data() {
-    return {
-      form2: {},
-    }
-  },
-  mounted() {
-    this.form2 = { ...this.step2FormDataProps }
-  },
-  watch: {
-    'form2.checked'(newValue) {
-      if (newValue) {
-        this.form2.localAdd = this.form2.presentAdd;
-      } else {
-        this.form2.localAdd = '';
-      }
-    },
-    'form2.presentAdd'(newValue) {
-      if (this.form2.checked) {
-        this.form2.localAdd = newValue;
-      }
-    }
-  },
 
   methods: {
-    step2DataCollect() {
-      return this.form2; 
+    checkBoxclick() {
+
+      this.$emit('update:modelValue', {
+        ...this.modelValue,
+        checked: !this.modelValue.checked
+      })
     }
   },
 

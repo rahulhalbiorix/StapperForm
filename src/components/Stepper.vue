@@ -20,10 +20,9 @@
                     <span class="step-label" :class="{ 'activeText': curruentStep == 3 }">Review & Submit</span>
                 </div>
             </div>
-
         </div>
         <div>
-            <component :is="view" :ref="currentStepRef" v-bind="CurruentProps">
+            <component :is="view" v-model="currentFormData" v-bind="CurruentProps">
             </component>
         </div>
 
@@ -34,7 +33,7 @@
                 style="background-color: #6061ef;color: white;font-weight: 700;"
                 @click="handleNextSubmitBtn">Next</button>
             <button v-else class="button" style="background-color: green;color: white;font-weight: 700;"
-                @click="handleFinalSubmit">Submit</button>
+                @click="handleFinalSubmit" >Submit</button>
         </div>
     </div>
 </template>
@@ -61,10 +60,31 @@ export default {
             }
         }
     },
+    watch:{
+          'step2FormData.checked'(newValue) {
+
+      if (newValue) {
+        this.step2FormData.localAdd = this.step2FormData.presentAdd;
+      }
+    },
+    },
+
     computed: {
-        currentStepRef() {
-            return this.view + 'Ref';
+
+        currentFormData: {
+            get() {
+                return this.curruentStep === 1 ? this.step1FormData : this.step2FormData;
+            },
+            set(value) {
+              
+                if (this.curruentStep === 1) {
+                    this.step1FormData = value;
+                } else {
+                    this.step2FormData = value;
+                }
+            }
         },
+
         CurruentProps() {
             if (this.view == "step1") {
                 return { step1FormDataProps: this.step1FormData }
@@ -80,35 +100,17 @@ export default {
             }
         }
     },
-    watch: {
-
-
-
-
-    },
-
-
 
     methods: {
 
         handleNextSubmitBtn() {
-
             if (this.curruentStep == 1) {
-
-                const step1Data = this.$refs.step1Ref.step1DataCollect();
-                this.step1FormData = step1Data;
                 this.curruentStep++;
                 this.view = "step2";
             } else if (this.curruentStep == 2) {
-
-                console.log("gsvg avghvgh");
-                const step2Data = this.$refs.step2Ref.step2DataCollect();
-                this.step2FormData = step2Data;
                 this.curruentStep++;
                 this.view = "step3";
 
-            } else if (this.curruentStep == 3) {
-                   console.log("Current step is 3");
             } else {
                 this.curruentStep = 1;
                 this.view = "step1";
@@ -129,6 +131,8 @@ export default {
         },
         handleFinalSubmit() {
             alert("Data Submitteed Successfully");
+            this.$emit('send-data-renderList' , {...this.step1FormData,...this.step2FormData});
+
         }
     }
 }

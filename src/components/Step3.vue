@@ -9,18 +9,18 @@
       <div class="review-group">
         <h3>Personal Information</h3>
         <p><strong>First Name:</strong> {{ step1FormDataProps.firstname }}</p>
-        <p><strong>Last Name:</strong>{{ step1FormDataProps.lastname }} </p>
-        <p><strong>Email:</strong>{{ step1FormDataProps.email }}</p>
-        <p><strong>Phone Number:</strong>{{ step1FormDataProps.phone }}</p>
+        <p><strong>Last Name:</strong>{{ step1FormDataProps.lastname  }} </p>
+        <p><strong>Email:</strong>{{  step1FormDataProps.email }}</p>
+        <p><strong>Phone Number:</strong>{{ step1FormDataProps.phone  }}</p>
         <p><strong>Gender:</strong>{{ step1FormDataProps.gender }}</p>
-        <p><strong>Date of Birth:</strong>{{ step1FormDataProps.dob }}</p>
+        <p><strong>Date of Birth:</strong>{{ step1FormDataProps.dob  }}</p>
       </div>
 
       <div class="review-group">
            <h3>Address Information</h3>
-          <p><strong>Present Address:</strong>{{ step2FormDataProps.presentAdd  }}</p>
-          <p><strong>Local Address:</strong> {{ step2FormDataProps.localAdd }} </p>
-          <p><strong>State:</strong> {{ step2FormDataProps.state  }} </p>
+          <p><strong>Present Address:</strong>{{  step2FormDataProps.presentAdd  }}</p>
+          <p><strong>Local Address:</strong> {{  step2FormDataProps.localAdd  }} </p>
+          <p><strong>State:</strong> {{  step2FormDataProps.state  }} </p>
       </div>
     </div>
 
@@ -32,11 +32,6 @@ export default {
   props: {
     step1FormDataProps: Object,
     step2FormDataProps: Object
-  },
-  data() {
-    return {
-         
-    }
   },
 } 
 </script>

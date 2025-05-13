@@ -6,33 +6,65 @@
         </div>
         <div class="form-grid">
             <div class="form-group">
-                <label for="firstName">First Name: {{ form1.firstname }} </label>
-                <input type="text" id="firstName" placeholder="Enter your first name" v-model="form1.firstname">
+                <label for="firstName">First Name: {{ modelValue.firstname }} </label>
+                <input type="text" id="firstName" placeholder="Enter your first name" :value="modelValue.firstname"
+                    @input="$emit('update:modelValue', { ...modelValue, firstname: $event.target.value })">
             </div>
             <div class="form-group">
-                <label for="lastName">Last Name: {{ form1.lastname }} </label>
-                <input type="text" id="lastName" placeholder="Enter your last name" v-model="form1.lastname">
+                <label for="lastName">Last Name: {{ modelValue.lastname }} </label>
+                <input type="text" id="lastName" placeholder="Enter your last name" :value="modelValue.lastname" @input="$emit('update:modelValue', {
+                    ...modelValue,
+                    lastname: $event.target.value
+                }
+                )">
             </div>
             <div class="form-group">
-                <label for="email">Email: {{ form1.email }}</label>
-                <input type="email" id="email" placeholder="Enter your email" v-model="form1.email">
+                <label for="email">Email: {{ modelValue.email }}</label>
+                <input type="email" id="email" placeholder="Enter your email" :value="modelValue.email" @input="$emit('update:modelValue', {
+                    ...modelValue,
+                    email: $event.target.value
+                })">
             </div>
             <div class="form-group">
-                <label for="phone">Phone Number:{{ form1.phone }} </label>
-                <input type="tel" id="phone" placeholder="Enter your phone number" v-model="form1.phone">
+                <label for="phone">Phone Number:{{ modelValue.phone }} </label>
+                <input type="tel" id="phone" placeholder="Enter your phone number" :value="modelValue.phone" @input="$emit('update:modelValue', {
+                    ...modelValue,
+                    phone: $event.target.value
+                }
+                )">
             </div>
             <div class="form-group" style="margin: 10px 0px;">
-                <label for="phone">Gender : <b style="color: coral;">{{ form1.gender }} </b> </label>
+                <label for="phone">Gender : <b style="color: coral;">{{ modelValue.gender }} </b> </label>
                 <div style="display: flex; align-items: self-start;flex-direction: row-reverse;">
-                    <input type="radio" id="female" value="FEMALE" v-model="form1.gender">
+                    <input type="radio" id="female"
+                     name="gender"
+                    value="FEMALE"
+                
+                    @change="$emit('update:modelValue', {
+                        ...modelValue , 
+                        gender:$event.target.value
+                    })">
                     <label for="female">FeMale</label>
-                    <input type="radio" id="male" value="MALE" v-model="form1.gender">
+                    <input type="radio" id="male"
+                    name="gender"
+                    value="MALE"
+                     @change="$emit('update:modelValue' , {
+                        ...modelValue ,
+                        gender: $event.target.value
+                     })"
+                    >
                     <label for="male">Male</label>
                 </div>
             </div>
             <div class="form-group">
-                <label for="dob">DOB: {{ form1.dob }}</label>
-                <input type="date" id="dob" v-model="form1.dob">
+                <label for="dob">DOB: {{ modelValue.dob }}</label>
+                <input type="date" id="dob"
+
+                 :value="modelValue.dob"
+                  @input="$emit('update:modelValue' , { ... modelValue , 
+                    dob:$event.target.value
+                  } )"
+                >
             </div>
         </div>
     </div>
@@ -40,28 +72,8 @@
 
 <script>
 export default {
-
-    props: {
-        step1FormDataProps: Object,
-    },
-
-    data() {
-        return {
-            form1: { ...this.step1FormDataProps }
-        }
-    },
-
-
-    watch: {
-    },
-
-    methods: {
-           step1DataCollect(){
-                return this.form1;
-           } 
-    },
-
-
+    props: ['modelValue'],
+    emits: ['update:modelValue'],
 }
 
 

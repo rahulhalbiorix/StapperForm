@@ -5,6 +5,8 @@ import Stepper from './components/Stepper.vue'
 import Step1 from './components/Step1.vue'
 import Step2 from './components/Step2.vue'
 import Step3 from './components/Step3.vue'
+import List from './components/List.vue'
+
  
 const app =  createApp(App)
 
@@ -12,4 +14,5 @@ app.component('Stepper' , Stepper)
 app.component('Step1' , Step1)
 app.component('Step2' , Step2)
 app.component('Step3' , Step3)
+app.component('List', List )
 app.mount('#app')
