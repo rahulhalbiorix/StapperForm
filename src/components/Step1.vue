@@ -72,8 +72,13 @@
 
 <script>
 export default {
-    props: ['modelValue'],
+    props: ['modelValue' , 'userEditprops' ],
     emits: ['update:modelValue'],
+
+
+
+
+
 }
 
 

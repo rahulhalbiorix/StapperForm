@@ -3,7 +3,7 @@
         <div class="form-container">
             <h1 class="title">Multi-step Form</h1>
             <p class="subtitle">Complete all steps to proceed</p>
-
+     {{ userEditprops }}
             <div class="step-indicator">
                 <div class="step-item">
                     <div class="step-circle" :class="{ 'active': curruentStep >= 1 }">1</div>
@@ -22,7 +22,7 @@
             </div>
         </div>
         <div>
-            <component :is="view" v-model="currentFormData" v-bind="CurruentProps">
+            <component :is="view" v-model="currentFormData" v-bind="CurruentProps"  >
             </component>
         </div>
 
@@ -40,24 +40,30 @@
 
 <script>
 export default {
+     props:{
+        userEditprops:Object
+     },
+
+
     data() {
         return {
             curruentStep: 1,
             view: "step1",
             step1FormData: {
-                firstname: "",
-                lastname: "",
-                email: "",
-                phone: "",
-                gender: "",
-                dob: "",
+                firstname: this.userEditprops.firstname ||  ""  ,
+                lastname: this.userEditprops.lastname ||  "",
+                email:  this.userEditprops.email ||  "",
+                phone: this.userEditprops.phone ||  "",
+                gender: this.userEditprops.gender || "",
+                dob: this.userEditprops.dob ||  "",
             },
             step2FormData: {
-                presentAdd: "",
-                localAdd: "",
-                checked: false,
-                state: "",
-            }
+                presentAdd: this.userEditprops.presentAdd ||  "",
+                localAdd: this.userEditprops.localAdd || "",
+                checked: this.userEditprops.checked ||  false,
+                state: this.userEditprops.state ||  "",
+            },
+    
         }
     },
     watch:{
@@ -131,7 +137,17 @@ export default {
         },
         handleFinalSubmit() {
             alert("Data Submitteed Successfully");
-            this.$emit('send-data-renderList' , {...this.step1FormData,...this.step2FormData});
+         
+             if(this.userEditprops['action']){
+                console.log("if is worked")
+                 this.$emit('send-data-renderList' , {...this.step1FormData,...this.step2FormData});
+                }
+                else{
+                    console.log("else is worked");
+                 this.$emit('send-data-renderList' , {...this.step1FormData,...this.step2FormData , id: Date.now()});
+             }
+
+               
 
         }
     }
