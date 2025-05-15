@@ -8,19 +8,19 @@
     <div class="review-grid">
       <div class="review-group">
         <h3>Personal Information</h3>
-        <p><strong>First Name:</strong> {{ step1FormDataProps.firstname }}</p>
-        <p><strong>Last Name:</strong>{{ step1FormDataProps.lastname  }} </p>
-        <p><strong>Email:</strong>{{  step1FormDataProps.email }}</p>
-        <p><strong>Phone Number:</strong>{{ step1FormDataProps.phone  }}</p>
+        <p><strong>First Name: </strong> {{ step1FormDataProps.firstname }}</p>
+        <p><strong>Last Name:</strong>{{ step1FormDataProps.lastname }} </p>
+        <p><strong>Email:</strong>{{ step1FormDataProps.email }}</p>
+        <p><strong>Phone Number:</strong>{{ step1FormDataProps.phone }}</p>
         <p><strong>Gender:</strong>{{ step1FormDataProps.gender }}</p>
-        <p><strong>Date of Birth:</strong>{{ step1FormDataProps.dob  }}</p>
+        <p><strong>Date of Birth:</strong>{{ step1FormDataProps.dob }}</p>
       </div>
 
       <div class="review-group">
-           <h3>Address Information</h3>
-          <p><strong>Present Address:</strong>{{  step2FormDataProps.presentAdd  }}</p>
-          <p><strong>Local Address:</strong> {{  step2FormDataProps.localAdd  }} </p>
-          <p><strong>State:</strong> {{  step2FormDataProps.state  }} </p>
+        <h3>Address Information</h3>
+        <address><strong>Present Address:</strong>{{ step2FormDataProps.presentAdd }}</address>
+        <address><strong>Local Address:</strong> {{ step2FormDataProps.localAdd }} </address>
+        <address><strong>State:</strong> {{ step2FormDataProps.state }} </address>
       </div>
     </div>
 
@@ -37,49 +37,55 @@ export default {
 </script>
 
 <style scoped>
+strong {
+  margin-right: 10px;
+}
+
+
 .review-grid {
   display: flex;
   gap: 2rem;
   flex-wrap: wrap;
   background-color: #ffffff;
-  border: 1px solid #cbc5c6;
-  padding: 1rem;
-  border-radius: 4px;
+  border: 1px solid #e2e8f0;
+  /* Lighter border for a softer look */
+  padding: 1.5rem;
+  /* Increased padding for more space */
+  border-radius: 8px;
+  /* Rounded corners */
   margin-bottom: 1.5rem;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  /* Soft shadow for depth */
 }
 
 .review-group {
   flex: 1 1 45%;
-  background-color: #f7fafc;
-  padding: 1rem;
-  border-radius: 0.375rem;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  background-color: #f9fafb;
+  /* Slightly lighter background */
+  padding: 1.5rem;
+  /* Increased padding */
+  border-radius: 8px;
+  /* Rounded corners */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  /* Soft shadow */
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  /* Smooth transition */
+}
+
+.review-group:hover {
+  transform: translateY(-2px);
+  /* Lift effect on hover */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+  /* Deeper shadow on hover */
 }
 
 .review-group h3 {
-  font-size: 1.125rem;
-  font-weight: 600;
-  margin-bottom: 1rem;
-  color: #2d3748;
+  font-size: 1.25rem;
+  /* Slightly larger font size */
+  font-weight: 700;
+  /* Bolder font weight */
 }
 
-.review-group p {
-  margin-bottom: 0.5rem;
-  color: #4a5568;
-  font-size: 0.95rem;
-}
-
-.review-group strong {
-  color: #1a202c;
-  font-weight: 600;
-}
-
-
-.form-actions {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 1.5rem;
-}
 
 .form-actions button {
   padding: 0.625rem 1.25rem;

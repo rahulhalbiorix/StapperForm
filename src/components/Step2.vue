@@ -22,7 +22,7 @@
       </div>
       <div class="form-group">
         <div class="addressCheckbox">
-          <input type="checkbox" :checked="modelValue.checked" @click="checkBoxclick">
+          <input type="checkbox" :checked="modelValue.checked == true" @click="checkBoxclick">
           <label> <b>Copy Present Address into Local Address </b> </label>
         </div>
       </div>

@@ -39,7 +39,7 @@
                     <input type="radio" id="female"
                      name="gender"
                     value="FEMALE"
-                
+                    :checked="modelValue.gender === 'FEMALE'"
                     @change="$emit('update:modelValue', {
                         ...modelValue , 
                         gender:$event.target.value
@@ -48,6 +48,7 @@
                     <input type="radio" id="male"
                     name="gender"
                     value="MALE"
+                    :checked="modelValue.gender === 'MALE'"
                      @change="$emit('update:modelValue' , {
                         ...modelValue ,
                         gender: $event.target.value

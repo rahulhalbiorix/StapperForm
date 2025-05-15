@@ -2,7 +2,7 @@
 
   <div className="user-list-container">
     <div className="header">
-      <h2>User List</h2>
+      <h2>User List</h2>  
       <button className="add-user-btn" @click="$emit('show-form')">Add User</button>
     </div>
     <div className="table-container">
@@ -33,12 +33,12 @@
             <td>{{ user.dob }}</td>
             <td>{{ user.presentAdd }}</td>
             <td>{{ user.localAdd }}</td>
-            <!-- <td>{{ user.state }}</td> -->
-            <td>{{ user.id }}</td>
+            <td>{{ user.state }}</td>
+            <!-- <td>{{ user.id }}</td> -->
             <td class="actionBtn">
               <div class="ali-act-btn" >
-                <button class="edit-btn"   @click="$emit('editData' , user.id , 'Edit')"   >Edit</button>
-                <button class="delete-btn"  @click="$emit('deleteData', user.id)" >Delete</button>
+                <button class="edit-btn"   @click="$emit('editData' , user.id)"   ><i class="fa-regular fa-pen-to-square" style="color: #fff;"></i></button>
+                <button class="delete-btn"  @click="$emit('deleteData', user.id)" > <i class="fa-solid fa-trash"></i>  </button>
               </div>
             </td>
           </tr>
@@ -52,17 +52,19 @@
 </template>
 
 <script>
+   
 export default {
-  props: {
-    users: Object
+  
+  props:{
+    'users':Array
   },
 
   data() {
     return {
 
-
     }
-  }
+  },
+  
 }
 
 
@@ -140,16 +142,15 @@ export default {
 
 table {
   width: 100%;
-  border-collapse: separate;
-  border-spacing: 0;
+  border-collapse: collapse; /* Changed to collapse for better alignment */
   overflow: hidden;
 }
 
 th,
 td {
   padding: 1rem;
-  text-align: left;
-
+  text-align: center; /* Center align for both headers and data */
+  border: 1px solid #e0e0e0; /* Add border for better separation */
 }
 
 th {
@@ -169,7 +170,6 @@ tbody tr {
 
 tbody tr:hover {
   background-color: #A6D6D6;
-
 }
 
 tbody tr:nth-child(even) {
@@ -184,6 +184,7 @@ tbody td {
   color: #4A5568;
   font-size: 0.925rem;
 }
+
 
 @media (max-width: 768px) {
   .user-list-container {
@@ -204,7 +205,7 @@ tbody td {
 
 /* Style for Edit button */
 .edit-btn {
-  background-color: #4CAF50;
+  background-color: #008000;
   /* Green */
   color: white;
   border: none;
