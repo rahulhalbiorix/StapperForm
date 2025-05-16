@@ -37,7 +37,7 @@
             <!-- <td>{{ user.id }}</td> -->
             <td class="actionBtn">
               <div class="ali-act-btn" >
-                <button class="edit-btn"   @click="$emit('editData' , user.id)"   ><i class="fa-regular fa-pen-to-square" style="color: #fff;"></i></button>
+                <button class="edit-btn"   @click="$emit('editData' , user)"   ><i class="fa-regular fa-pen-to-square" style="color: #fff;"></i></button>
                 <button class="delete-btn"  @click="$emit('deleteData', user.id)" > <i class="fa-solid fa-trash"></i>  </button>
               </div>
             </td>

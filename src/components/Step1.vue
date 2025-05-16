@@ -6,7 +6,7 @@
         </div>
         <div class="form-grid">
             <div class="form-group">
-                <label for="firstName">First Name: {{ modelValue.firstname }} </label>
+                <label for="firstName">First Name: {{ modelValue.firstname }} </label>={{ v$.modelValue.firstname.$error }}=
                 <input type="text" id="firstName" placeholder="Enter your first name" :value="modelValue.firstname"
                     @input="$emit('update:modelValue', { ...modelValue, firstname: $event.target.value })">
             </div>
@@ -72,12 +72,29 @@
 </template>
 
 <script>
+import { useVuelidate } from '@vuelidate/core'
+import { required } from '@vuelidate/validators';
+
 export default {
-    props: ['modelValue' , 'userEditprops' ],
+    props: ['modelValue'],
     emits: ['update:modelValue'],
 
 
 
+    setup() {
+        return {
+            v$: useVuelidate()
+        }
+    },
+    validations () {
+        return {
+            modelValue: {
+
+                firstname: { required }
+            }
+        }
+
+    },
 
 
 }
