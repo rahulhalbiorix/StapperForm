@@ -36,17 +36,27 @@ export default {
       this.Showstepper = false;
     },
     deleteDataUser(ud) {
-      console.log("delete data is worked", ud);
-      let newArr = this.UserList.filter(obj => obj.id != ud);
-      console.log("new array after delete method", newArr);
-      this.UserList = newArr
-      localStorage.setItem("USER_DATA", JSON.stringify(this.UserList));
+
+      let res = confirm("Are you sure you want to delete the data!...");
+
+      if (res) {
+        console.log("delete data is worked", ud);
+        let newArr = this.UserList.filter(obj => obj.id != ud);
+        console.log("new array after delete method", newArr);
+        this.UserList = newArr
+        localStorage.setItem("USER_DATA", JSON.stringify(this.UserList));
+
+      }
+      
     },
-    editDataUser(user) {
+    editDataUser(id) {
       this.EditUs = true;
       console.log(this.EditUs, 'user variable');
+      console.log("editDatauser work", id);
       this.Showstepper = true;
-      this.EditDP = { ...user };
+      let EditedData = this.UserList.find(obj => obj.id === id);
+      console.log(EditedData);
+      this.EditDP = EditedData;
       console.log(this.EditDP)
     }
   },
