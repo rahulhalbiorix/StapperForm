@@ -1,8 +1,9 @@
 <template>
-  <Stepper v-if="Showstepper" @send-data-renderList="handelAddUser" :userEditprops="EditDP" :userEditvarprop="EditUs">
-  </Stepper>
-  <List v-else @show-form="Showstepper = !Showstepper" @editData="editDataUser" @deleteData="deleteDataUser"
-    :users="UserList"></List>
+  <router-view 
+   @send-data-renderList="handelAddUser" :userEditprops="EditDP" :userEditvarprop="EditUs"
+     @show-form="navigateToForm"
+   @editData="editDataUser" @deleteData="deleteDataUser" :users="UserList"
+  ></router-view>
 </template>
 <script>
 export default {
@@ -25,18 +26,19 @@ export default {
         this.UserList.push(UserData);
       } else {
         let index = this.UserList.findIndex(Obj => Obj.id == UserData.id)
-        if(index > -1)  this.UserList.splice(index, 1, UserData);
-      }
+        if (index > -1) this.UserList.splice(index, 1, UserData);
 
+      }
+      
       console.log("User list data array ", this.UserList)
       this.EditDP = {}
-
+      
       localStorage.setItem("USER_DATA", JSON.stringify(this.UserList));
-
-      this.Showstepper = false;
+      
+       this.$router.push('/')
     },
     deleteDataUser(ud) {
-
+      
       let res = confirm("Are you sure you want to delete the data!...");
 
       if (res) {
@@ -47,7 +49,7 @@ export default {
         localStorage.setItem("USER_DATA", JSON.stringify(this.UserList));
 
       }
-      
+
     },
     editDataUser(id) {
       this.EditUs = true;
@@ -58,6 +60,10 @@ export default {
       console.log(EditedData);
       this.EditDP = EditedData;
       console.log(this.EditDP)
+    },
+    navigateToForm(){
+      
+      this.$router.push('/form');
     }
   },
 
