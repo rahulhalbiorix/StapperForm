@@ -2,7 +2,54 @@
 
   <div className="user-list-container">
     <div className="header">
-      <h2>User List</h2>  
+      <h2>User List</h2>
+      <div class="filter-bar">
+        <input type="text" v-model="SeachFirstName" placeholder="Search by name..." class="filter-input" @input="emitFilters"
+           />{{ SeachFirstName }}
+
+        <input type="text" v-model="SeachEmail" placeholder="Search by Mail..." class="filter-input"  @input="emitFilters"
+           />{{ SeachEmail }}
+
+        <select class="filter-select" v-model="SelectedGender" @change="emitFilters" >
+          <option value="">All Genders</option>
+          <option value="Male">Male</option>
+          <option value="Female">Female</option>
+        </select>{{ SelectedGender }}
+
+        <select class="filter-select" v-model="SelectedState"  @change="emitFilters" >
+          <option value="">All States</option>
+          <option value="Andhra Pradesh">Andhra Pradesh</option>
+          <option value="Arunachal Pradesh">Arunachal Pradesh</option>
+          <option value="Assam">Assam</option>
+          <option value="Bihar">Bihar</option>
+          <option value="Chhattisgarh">Chhattisgarh</option>
+          <option value="Goa">Goa</option>
+          <option value="Gujarat">Gujarat</option>
+          <option value="Haryana">Haryana</option>
+          <option value="Himachal Pradesh">Himachal Pradesh</option>
+          <option value="Jharkhand">Jharkhand</option>
+          <option value="Karnataka">Karnataka</option>
+          <option value="Kerala">Kerala</option>
+          <option value="Madhya Pradesh">Madhya Pradesh</option>
+          <option value="Maharashtra">Maharashtra</option>
+          <option value="Manipur">Manipur</option>
+          <option value="Meghalaya">Meghalaya</option>
+          <option value="Mizoram">Mizoram</option>
+          <option value="Nagaland">Nagaland</option>
+          <option value="Odisha">Odisha</option>
+          <option value="Punjab">Punjab</option>
+          <option value="Rajasthan">Rajasthan</option>
+          <option value="Sikkim">Sikkim</option>
+          <option value="Tamil Nadu">Tamil Nadu</option>
+          <option value="Telangana">Telangana</option>
+          <option value="Tripura">Tripura</option>
+          <option value="Uttar Pradesh">Uttar Pradesh</option>
+          <option value="Uttarakhand">Uttarakhand</option>
+          <option value="West Bengal">West Bengal</option>
+
+        </select>{{ SelectedState }}
+      </div>
+
       <button className="add-user-btn" @click="$emit('show-form')">Add User</button>
     </div>
     <div className="table-container">
@@ -22,7 +69,33 @@
             <th>Actions</th>
           </tr>
         </thead>
-        <tbody>
+
+
+        <tbody class="filtered-item" v-if="filteredUser.length > 0">
+          <tr v-for="(user, index) in filteredUser">
+            <td> {{ index + 1 }} </td>
+            <td>{{ user.firstname }} </td>
+            <td>{{ user.lastname }}</td>
+            <td>{{ user.email }}</td>
+            <td>{{ user.phone }}</td>
+            <td>{{ user.gender }}</td>
+            <td>{{ user.dob }}</td>
+            <td>{{ user.presentAdd }}</td>
+            <td>{{ user.localAdd }}</td>
+            <td>{{ user.state }}</td>
+            <!-- <td>{{ user.id }}</td> -->
+            <td class="actionBtn">
+              <div class="ali-act-btn">
+                <button class="edit-btn" @click="$emit('editData', user)"><i class="fa-regular fa-pen-to-square"
+                    style="color: #fff;"></i></button>
+                <button class="delete-btn" @click="$emit('deleteData', user.id)"> <i class="fa-solid fa-trash"></i>
+                </button>
+              </div>
+            </td>
+          </tr>
+
+        </tbody>
+        <tbody class="un-filtered-item" v-else>
           <tr v-for="(user, index) in users">
             <td> {{ index + 1 }} </td>
             <td>{{ user.firstname }} </td>
@@ -36,9 +109,11 @@
             <td>{{ user.state }}</td>
             <!-- <td>{{ user.id }}</td> -->
             <td class="actionBtn">
-              <div class="ali-act-btn" >
-                <button class="edit-btn"   @click="$emit('editData' , user)"   ><i class="fa-regular fa-pen-to-square" style="color: #fff;"></i></button>
-                <button class="delete-btn"  @click="$emit('deleteData', user.id)" > <i class="fa-solid fa-trash"></i>  </button>
+              <div class="ali-act-btn">
+                <button class="edit-btn" @click="$emit('editData', user)"><i class="fa-regular fa-pen-to-square"
+                    style="color: #fff;"></i></button>
+                <button class="delete-btn" @click="$emit('deleteData', user.id)"> <i class="fa-solid fa-trash"></i>
+                </button>
               </div>
             </td>
           </tr>
@@ -52,19 +127,29 @@
 </template>
 
 <script>
-   
+
 export default {
-  
-  props:{
-    'users':Array
+emits:['FilteredValue'],
+
+
+  props: {
+    'users': Array,
+    'filteredUser': Array
   },
 
   data() {
     return {
-
+       SeachFirstName:"",
+       SeachEmail:"",
+       SelectedGender:"",
+       SelectedState:""
     }
   },
-  
+    methods:{
+      emitFilters(){
+       this.$emit('FilteredValue', { firstname : this.SeachFirstName , email: this.SeachEmail , gender: this.SelectedGender , state: this.SelectedState });
+      }
+    }
 }
 
 
@@ -73,6 +158,11 @@ export default {
 
 
 <style scopped>
+.filtered-item{
+  border: 5px solid red;
+}
+
+
 .user-list-container {
   background: #FFFFFF;
   padding: 2rem;
@@ -142,15 +232,18 @@ export default {
 
 table {
   width: 100%;
-  border-collapse: collapse; /* Changed to collapse for better alignment */
+  border-collapse: collapse;
+  /* Changed to collapse for better alignment */
   overflow: hidden;
 }
 
 th,
 td {
   padding: 1rem;
-  text-align: center; /* Center align for both headers and data */
-  border: 1px solid #e0e0e0; /* Add border for better separation */
+  text-align: center;
+  /* Center align for both headers and data */
+  border: 1px solid #e0e0e0;
+  /* Add border for better separation */
 }
 
 th {
@@ -238,9 +331,41 @@ tbody td {
   background-color: #d32f2f;
 }
 
-.ali-act-btn{
+.ali-act-btn {
   display: flex;
 }
 
+.filter-bar {
+  display: flex;
+  justify-content: flex-start;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+}
 
+.filter-input {
+  padding: 0.6rem 1rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  min-width: 200px;
+  flex: 1 1 200px;
+}
+
+.filter-select {
+  padding: 0.6rem 1rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  background-color: #fff;
+  min-width: 180px;
+  flex: 1 1 180px;
+}
+
+.filter-input:focus,
+.filter-select:focus {
+  outline: none;
+  border-color: #6366F1;
+  box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.25);
+}
 </style>

@@ -16,10 +16,12 @@ const router = createRouter({
       routes:[
         {
             path:'/',
+            name:'List',
             component:List
         },
         {
             path:'/form',
+            name:'Form',
             component:Stepper
         }
       ]
