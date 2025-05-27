@@ -4,19 +4,17 @@
     <div className="header">
       <h2>User List</h2>
       <div class="filter-bar">
-        <input type="text" v-model="SeachFirstName" placeholder="Search by name..." class="filter-input" @input="emitFilters"
-           />{{ SeachFirstName }}
+        <input type="text" v-model="searchFirstName" placeholder="Search by name..." class="filter-input" />
 
-        <input type="text" v-model="SeachEmail" placeholder="Search by Mail..." class="filter-input"  @input="emitFilters"
-           />{{ SeachEmail }}
+        <input type="text" v-model="searchEmail" placeholder="Search by Mail..." class="filter-input" />
 
-        <select class="filter-select" v-model="SelectedGender" @change="emitFilters" >
+        <select class="filter-select" v-model="selectedGender">
           <option value="">All Genders</option>
           <option value="Male">Male</option>
           <option value="Female">Female</option>
-        </select>{{ SelectedGender }}
+        </select>
 
-        <select class="filter-select" v-model="SelectedState"  @change="emitFilters" >
+        <select class="filter-select" v-model="selectedState">
           <option value="">All States</option>
           <option value="Andhra Pradesh">Andhra Pradesh</option>
           <option value="Arunachal Pradesh">Arunachal Pradesh</option>
@@ -47,9 +45,9 @@
           <option value="Uttarakhand">Uttarakhand</option>
           <option value="West Bengal">West Bengal</option>
 
-        </select>{{ SelectedState }}
+        </select>
       </div>
-
+      <button class="btn btn-primary" @click="searchList">Search Uesr</button>
       <button className="add-user-btn" @click="$emit('show-form')">Add User</button>
     </div>
     <div className="table-container">
@@ -71,8 +69,8 @@
         </thead>
 
 
-        <tbody class="filtered-item" v-if="filteredUser.length > 0">
-          <tr v-for="(user, index) in filteredUser">
+        <tbody class="filtered-item" v-if="filteredUserList.length > 0">
+          <tr v-for="(user, index) in filteredUserList" style="background-color: palegreen;">
             <td> {{ index + 1 }} </td>
             <td>{{ user.firstname }} </td>
             <td>{{ user.lastname }}</td>
@@ -129,27 +127,85 @@
 <script>
 
 export default {
-emits:['FilteredValue'],
+  emits: ['show-form'],
 
 
   props: {
     'users': Array,
-    'filteredUser': Array
+
   },
 
   data() {
     return {
-       SeachFirstName:"",
-       SeachEmail:"",
-       SelectedGender:"",
-       SelectedState:""
+      searchFirstName: "",
+      searchEmail: "",
+      selectedGender: "",
+      selectedState: "",
+      filteredUserList: []
     }
   },
-    methods:{
-      emitFilters(){
-       this.$emit('FilteredValue', { firstname : this.SeachFirstName , email: this.SeachEmail , gender: this.SelectedGender , state: this.SelectedState });
+
+
+
+  mounted() {
+    const query = this.$route.query
+    console.log("🔴🔴🔴🔴🔴", query);
+    this.searchFirstName= query.name;
+    this.searchEmail = query.email;
+    this.selectedGender = query.gender;
+    this.selectedState = query.state
+    this.searchList();
+  },
+
+  methods: {
+
+    searchList() {
+
+      let filteredList = this.users
+      console.log("****", filteredList)
+
+
+      if (this.searchFirstName) {
+        filteredList = filteredList.filter(item => {
+          return (item.firstname.toLowerCase().includes(this.searchFirstName.toLowerCase()) ||
+            item.lastname.toLowerCase().includes(this.searchFirstName.toLowerCase()))
+        })
       }
+
+      if (this.searchEmail) {
+        filteredList = filteredList.filter(item => {
+          return item.email.toLowerCase().includes(this.searchEmail.toLowerCase());
+        })
+      }
+      if (this.selectedGender) {
+        filteredList = filteredList.filter(item => {
+          return (item.gender.toLowerCase() === this.selectedGender.toLowerCase())
+        })
+      }
+      if (this.selectedState) {
+        filteredList = filteredList.filter(item => {
+          return (item.state.toLowerCase() === this.selectedState.toLowerCase())
+        })
+      }
+
+      this.filteredUserList = filteredList
+
+      console.log("-------------> ", filteredList)
+
+
+
+      this.$router.replace(
+        {
+          query: {
+            name: this.searchFirstName|| "",
+            email: this.searchEmail || "",
+            gender: this.selectedGender || "",
+            state: this.selectedState || ""
+          }
+        }
+      )
     }
+  }
 }
 
 
@@ -158,10 +214,9 @@ emits:['FilteredValue'],
 
 
 <style scopped>
-.filtered-item{
+.filtered-item {
   border: 5px solid red;
 }
-
 
 .user-list-container {
   background: #FFFFFF;
