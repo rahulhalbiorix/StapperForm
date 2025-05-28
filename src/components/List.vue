@@ -47,7 +47,7 @@
 
         </select>
       </div>
-      <button class="btn btn-primary" @click="searchList">Search Uesr</button>
+      <button class="btn btn-primary" @click="setOnQuery">Search Uesr</button>
       <button className="add-user-btn" @click="$emit('show-form')">Add User</button>
     </div>
     <div className="table-container">
@@ -70,7 +70,7 @@
 
 
         <tbody class="filtered-item" v-if="filteredUserList.length > 0">
-          <tr v-for="(user, index) in filteredUserList" style="background-color: palegreen;">
+          <tr v-for="(user, index) in filteredUserList">
             <td> {{ index + 1 }} </td>
             <td>{{ user.firstname }} </td>
             <td>{{ user.lastname }}</td>
@@ -81,7 +81,6 @@
             <td>{{ user.presentAdd }}</td>
             <td>{{ user.localAdd }}</td>
             <td>{{ user.state }}</td>
-            <!-- <td>{{ user.id }}</td> -->
             <td class="actionBtn">
               <div class="ali-act-btn">
                 <button class="edit-btn" @click="$emit('editData', user)"><i class="fa-regular fa-pen-to-square"
@@ -105,7 +104,7 @@
             <td>{{ user.presentAdd }}</td>
             <td>{{ user.localAdd }}</td>
             <td>{{ user.state }}</td>
-            <!-- <td>{{ user.id }}</td> -->
+          
             <td class="actionBtn">
               <div class="ali-act-btn">
                 <button class="edit-btn" @click="$emit('editData', user)"><i class="fa-regular fa-pen-to-square"
@@ -145,65 +144,78 @@ export default {
     }
   },
 
-
-
-  mounted() {
-    const query = this.$route.query
-    console.log("🔴🔴🔴🔴🔴", query);
-    this.searchFirstName= query.name;
-    this.searchEmail = query.email;
-    this.selectedGender = query.gender;
-    this.selectedState = query.state
-    this.searchList();
+  watch: {
+    '$route.query': {
+      handler(newVal, oldVal) {
+        if (JSON.stringify(newVal) !== JSON.stringify(oldVal)) {
+          this.$router.replace(
+            {
+              query: {
+                name: this.searchFirstName,
+                email: this.searchEmail,
+                gender: this.selectedGender,
+                state: this.selectedState
+              }
+            }
+          );
+           this.searchList(this.$route.query.name,this.$route.query.email,this.$route.query.gender,this.$route.query.state);
+        }
+      }
+    }
   },
 
+  mounted() {
+    console.log("🔴🔴🔴🔴🔴 Mounted");
+    this.searchList(this.$route.query.name,this.$route.query.email,this.$route.query.gender,this.$route.query.state);
+  },    
+   
+ 
   methods: {
+    setOnQuery() {
+      console.log("🟢🔴🔵 Data set on query params")
+      this.$router.replace(
+        {
+          query: {
+            name: this.searchFirstName,
+            email: this.searchEmail,
+            gender: this.selectedGender,
+            state: this.selectedState
+          }
+        }
+      )
 
-    searchList() {
+    },
 
+   searchList(queryName, queryEmail , queryGender , queryState) {
+          
+    console.log(queryName, queryEmail , queryGender , queryState);
       let filteredList = this.users
-      console.log("****", filteredList)
-
-
-      if (this.searchFirstName) {
+    
+      if (queryName) {
         filteredList = filteredList.filter(item => {
-          return (item.firstname.toLowerCase().includes(this.searchFirstName.toLowerCase()) ||
-            item.lastname.toLowerCase().includes(this.searchFirstName.toLowerCase()))
+          return (item.firstname.toLowerCase().includes(queryName.toLowerCase()) ||
+            item.lastname.toLowerCase().includes(queryName.toLowerCase()))
         })
       }
 
-      if (this.searchEmail) {
+      if (queryEmail) {
         filteredList = filteredList.filter(item => {
-          return item.email.toLowerCase().includes(this.searchEmail.toLowerCase());
+          return item.email.toLowerCase().includes(queryEmail.toLowerCase());
         })
       }
-      if (this.selectedGender) {
+      if (queryGender) {
         filteredList = filteredList.filter(item => {
-          return (item.gender.toLowerCase() === this.selectedGender.toLowerCase())
+          return (item.gender.toLowerCase() === queryGender.toLowerCase())
         })
       }
-      if (this.selectedState) {
+      if (queryState) {
         filteredList = filteredList.filter(item => {
-          return (item.state.toLowerCase() === this.selectedState.toLowerCase())
+          return (item.state.toLowerCase() === queryState.toLowerCase())
         })
       }
 
       this.filteredUserList = filteredList
 
-      console.log("-------------> ", filteredList)
-
-
-
-      this.$router.replace(
-        {
-          query: {
-            name: this.searchFirstName|| "",
-            email: this.searchEmail || "",
-            gender: this.selectedGender || "",
-            state: this.selectedState || ""
-          }
-        }
-      )
     }
   }
 }
